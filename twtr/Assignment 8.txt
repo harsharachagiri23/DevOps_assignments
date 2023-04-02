@@ -1,0 +1,17 @@
+213511591460.dkr.ecr.us-east-1.amazonaws.com/twtr-be
+213511591460.dkr.ecr.us-east-1.amazonaws.com/twtr-fe
+
+docker build -f be/Dockerfile -t 213511591460.dkr.ecr.us-east-1.amazonaws.com/twtr-be:dev ./be
+docker build -f fe/Dockerfile -t 213511591460.dkr.ecr.us-east-1.amazonaws.com/twtr-fe:dev ./fe
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 213511591460.dkr.ecr.us-east-1.amazonaws.com
+
+docker push 213511591460.dkr.ecr.us-east-1.amazonaws.com/twtr-be:dev
+docker push 213511591460.dkr.ecr.us-east-1.amazonaws.com/twtr-fe:dev
+
+git branch -M master
+git add .
+git commit -m "small change"
+git push --set-upstream origin master
+
+XHoVMiEHxrSIj7vN

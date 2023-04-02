@@ -1,0 +1,98 @@
+# version: "3.1"
+
+# services:
+#   #Front-end
+#   fe:
+#     build:
+#       context: ./sa-frontend
+#       dockerfile: Dockerfile
+#     ports:
+#       - 8089:80
+#     environment:
+#       - REACT_ENV=development
+#     networks:
+#       - frontend
+
+#   # Backend Flask
+#   lo:
+#     build:
+#       context: ./sa-logic
+#       dockerfile: Dockerfile
+#     ports:
+#       - 5070:5020
+#     environment:
+#       - FLASK_ENV=development
+#     networks:
+#       - backend
+
+#   #Backend Java
+#   wa:
+#     build:
+#       context: ./sa-webapp
+#       dockerfile: Dockerfile
+#     ports:
+#       - 8452:3788
+#     environment:
+#       - SA_LOGIC_API_URL=http://localhost:5020
+#       #- SA_LOGIC_API_URL=http://172.21.0.2:5020
+#       - WA_NETWORK=backend
+#     depends_on:
+#       - lo
+#     # specifies frontend and backend as the networks the wa service will have access to
+#     networks:
+#       - frontend
+#       - backend
+
+# networks:
+#   frontend:
+#     driver: bridge
+#   backend:
+#     driver: bridge
+
+#version: '3.8'
+# see here https://docs.docker.com/compose/compose-file/compose-versioning/
+version: "3.1"
+
+services:
+  fe:
+    build:
+      context: ./devops_react/sa-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8087:80"
+    environment:
+      - REACT_ENV=development
+    networks:
+      - frontend
+
+  lo:
+    build:
+      context: ./sa-flask
+      dockerfile: Dockerfile
+    ports:
+      - "5052:5001"
+    environment:
+      - FLASK_ENV=development
+    networks:
+      - backend
+
+  wa:
+    build:
+      context: ./sa-webapp
+      dockerfile: Dockerfile
+    ports:
+      - "8083:3559"
+    environment:
+      - SA_LOGIC_API_URL=http://172.17.0.8:5001
+      - WA_NETWORK=backend
+    depends_on:
+      - lo
+    networks:
+      - frontend
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

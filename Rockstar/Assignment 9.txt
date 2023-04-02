@@ -1,0 +1,66 @@
+Part 1
+docker build . -t nupatrickxu/dn2
+docker push nupatrickxu/dn2
+docker run -d -p 8080:5000 --name testcontainer nupatrickxu/dn2
+
+# Operation on EC2 Instance
+mkdir ~/gm
+cd ~/gm
+sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+sudo yum update
+sudo yum install dotnet-sdk-3.1
+dotnet --version
+dotnet new console -o helloworldapp
+cd helloworldapp
+dotnet run
+cd /tmp
+sudo amazon-linux-extras install epel
+sudo yum install git
+git clone https://github.com/nupatrickxu/dn2.git
+sudo cp -r dn2/* ~/dn2/
+dotnet build
+sudo yum install lynx
+lynx http://localhost:5000
+sudo yum install docker
+sudo systemctl start docker
+sudo systemctl status docker
+sudo docker info
+
+sudo docker run hello-world
+
+sudo touch Dockerfile
+vim Dockerfile
+
+sudo docker build . -t nupatrickxu/dn2
+sudo docker push nupatrickxu/dn2
+sudo docker run -d -p 8080:80 --name webapp nupatrickxu/dn2
+
+# Use K8s to start service
+kubectl apply -f mydeploy.yaml
+kubectl create -f myservice.yaml
+kubectl get svc
+minikube service list
+
+
+
+Part 2
+terraform init
+terraform plan
+terraform apply
+
+terraform output -raw tls_private_key > id_rsa.pem
+terraform output public_ip_address
+
+ssh -i id_rsa patrick@20.231.99.90
+
+terraform destroy
+
+Part 3
+wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get install apt-transport-https
+sudo apt-get update
+sudo apt-get install dotnet-sdk-3.1
+
+dotnet new mvc
+dotnet build
